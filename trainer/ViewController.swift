@@ -8,10 +8,29 @@
 
 import UIKit
 import AudioToolbox
+import Foundation
 
 extension Date {
     func toMillis() -> Int64! {
         return Int64(self.timeIntervalSince1970 * 1000)
+    }
+}
+
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
     }
 }
 
@@ -21,11 +40,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var secondsLabel: UILabel!
     @IBOutlet weak var minutesLabel: UILabel!
     @IBOutlet weak var startstopButton: UIButton!
-    
+    @IBOutlet weak var startBreathTimeValue: UITextField!
+    @IBOutlet weak var decreaseBreathValue: UITextField!
+    @IBOutlet weak var holdTimeValue: UITextField!
     
     var isOn = false
     var timer = Timer()
-    var counterValues = [5000,1000]
+    var counterValues = [62000,1000]
     var usedCounterSum = 0
     var counterIndex = 0
     var startTimestamp = Int64(0)
@@ -52,13 +73,26 @@ class ViewController: UIViewController {
         return String(timeInt / 60000)
     }
     func getSeconds(timeInt:Int) -> Int {
-        return ((timeInt / 1000) % 3600) % 60
+        return Int(ceil(Double(timeInt % 60000)/1000.0))
+    }
+    
+    func resetAll() {
+        timer.invalidate()
+        minutesLabel.text = getMinutesString(timeInt:counterValues[0])
+        secondsLabel.text = String(format:"%02i",getSeconds(timeInt:counterValues[0]))
+        iterationLabel.text = String(counterIndex)
+        startTimestamp = Int64(0)
+        stopTimestamp = Int64(0)
+        counterIndex = 0
+        usedCounterSum = 0
+        isOn = false
+        startstopButton.setTitle("START", for: .normal)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        minutesLabel.text = "0"
-        secondsLabel.text = "00"
+        self.hideKeyboard()
+        recalculateCounterValues()
     }
 
     @IBAction func buttonClicked(_ sender: UIButton) {
@@ -75,6 +109,30 @@ class ViewController: UIViewController {
         }
     }
     
+    func timeStringToMs(tS:String) -> Int {
+        //TODO check incomming value
+        let timeArr = tS.components(separatedBy: ":")
+        let time = (Int(timeArr[0])! * 60 + Int(timeArr[1])!)*1000
+        return time //TODO write the body
+    }
+    
+    func recalculateCounterValues() {
+        let iterations = 8 //TODO make dynamic
+        counterValues = Array(repeating: 0, count: iterations * 2)
+        let sBInt = timeStringToMs(tS: String(startBreathTimeValue.text!))
+        let dBInt = timeStringToMs(tS: String(decreaseBreathValue.text!))
+        let hInt = timeStringToMs(tS: String(holdTimeValue.text!))
+        for i in 0...iterations - 1 {
+            counterValues[2*i] = sBInt - i * dBInt
+            counterValues[2*i+1] = hInt
+        }
+    }
+    
+    @IBAction func valueEdited(_ sender: UITextField) {
+        recalculateCounterValues()
+        resetAll()
+    }
+    
     @objc func UpdateTimer() {
         var remaining = counterValues[counterIndex] - getTimer() + usedCounterSum
         if (remaining <= 0) {
@@ -82,11 +140,7 @@ class ViewController: UIViewController {
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             counterIndex = counterIndex + 1
             if(counterIndex > counterValues.count - 1) {
-                timer.invalidate()
-                minutesLabel.text = "0"
-                secondsLabel.text = "00"
-                counterIndex = 0
-                startstopButton.setTitle("START", for: .normal)
+                resetAll()
                 return
             }
             remaining = counterValues[counterIndex] - getTimer() + usedCounterSum
