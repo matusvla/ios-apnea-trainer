@@ -43,6 +43,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var startBreathTimeValue: UITextField!
     @IBOutlet weak var decreaseBreathValue: UITextField!
     @IBOutlet weak var holdTimeValue: UITextField!
+    @IBOutlet weak var increaseHoldValue: UITextField!
+    @IBOutlet weak var exerciseType: UISegmentedControl!
+    @IBOutlet weak var decreaseBreathController: UIStackView!
+    @IBOutlet weak var increaseHoldController: UIStackView!
+    @IBOutlet weak var settingsView: UIStackView!
     
     var isOn = false
     var timer = Timer()
@@ -92,6 +97,7 @@ class ViewController: UIViewController {
         usedCounterSum = 0
         isOn = false
         startstopButton.setTitle("START", for: .normal)
+        setExerciseType()
     }
     
     override func viewDidLoad() {
@@ -107,11 +113,13 @@ class ViewController: UIViewController {
             startTimestamp += Date().toMillis() - stopTimestamp
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
             startstopButton.setTitle("STOP", for: .normal)
+            settingsView.isHidden = true
         }
         else {
             stopTimestamp = Date().toMillis()
             startstopButton.setTitle("START", for: .normal)
             timer.invalidate()
+            settingsView.isHidden = false
         }
     }
     
@@ -128,9 +136,18 @@ class ViewController: UIViewController {
         let sBInt = timeStringToMs(tS: String(startBreathTimeValue.text!))
         let dBInt = timeStringToMs(tS: String(decreaseBreathValue.text!))
         let hInt = timeStringToMs(tS: String(holdTimeValue.text!))
-        for i in 0...iterations - 1 {
-            counterValues[2*i] = sBInt - i * dBInt
-            counterValues[2*i+1] = hInt
+        let iHInt = timeStringToMs(tS: String(increaseHoldValue.text!))
+        if(exerciseType.selectedSegmentIndex == 0) {
+            for i in 0...iterations - 1 {
+                counterValues[2*i] = sBInt - i * dBInt
+                counterValues[2*i+1] = hInt
+            }
+        }
+        else {
+            for i in 0...iterations - 1 {
+                counterValues[2*i] = sBInt
+                counterValues[2*i+1] = hInt + i * iHInt
+            }
         }
     }
     
@@ -159,6 +176,21 @@ class ViewController: UIViewController {
         else {
             iterationLabel.text = "HOLD"
         }
+    }
+    
+    func setExerciseType() {
+        if(exerciseType.selectedSegmentIndex == 0) {
+            decreaseBreathController.isHidden = false
+            increaseHoldController.isHidden = true
+        }
+        else {
+            decreaseBreathController.isHidden = true
+            increaseHoldController.isHidden = false
+        }
+    }
+    
+    @IBAction func exerciseTypeChnged(_ sender: Any) {
+        setExerciseType()
     }
 }
 
