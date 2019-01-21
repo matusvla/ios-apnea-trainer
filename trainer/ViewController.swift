@@ -67,20 +67,25 @@ class ViewController: UIViewController {
         return Int(Date().toMillis() - startTimestamp)
     }
     func getMinutesString(timeInt:Int) -> String {
-        if (timeInt / 60000 > 9) {
+        //+1000 is correction for seconds
+        if ((timeInt + 1000) / 60000 > 9) {
             return "#"
         }
-        return String(timeInt / 60000)
+        return String((timeInt + 1000) / 60000)
     }
     func getSeconds(timeInt:Int) -> Int {
-        return Int(ceil(Double(timeInt % 60000)/1000.0))
+        let seconds = Int(ceil(Double(timeInt % 60000)/1000.0))
+        if(seconds == 60) {
+            return 0
+        }
+        return seconds
     }
     
     func resetAll() {
         timer.invalidate()
         minutesLabel.text = getMinutesString(timeInt:counterValues[0])
         secondsLabel.text = String(format:"%02i",getSeconds(timeInt:counterValues[0]))
-        iterationLabel.text = String(counterIndex)
+        iterationLabel.text = ""
         startTimestamp = Int64(0)
         stopTimestamp = Int64(0)
         counterIndex = 0
@@ -93,6 +98,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         recalculateCounterValues()
+        resetAll()
     }
 
     @IBAction func buttonClicked(_ sender: UIButton) {
@@ -147,7 +153,12 @@ class ViewController: UIViewController {
         }
         minutesLabel.text = getMinutesString(timeInt:remaining)
         secondsLabel.text = String(format:"%02i",getSeconds(timeInt:remaining))
-        iterationLabel.text = String(counterIndex)
+        if (counterIndex % 2 == 0) {
+            iterationLabel.text = "BREATHE"
+        }
+        else {
+            iterationLabel.text = "HOLD"
+        }
     }
 }
 
