@@ -98,6 +98,7 @@ class ViewController: UIViewController {
         isOn = false
         startstopButton.setTitle("START", for: .normal)
         setExerciseType()
+        settingsView.isHidden = false
     }
     
     override func viewDidLoad() {
