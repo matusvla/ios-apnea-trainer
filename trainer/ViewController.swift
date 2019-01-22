@@ -99,6 +99,7 @@ class ViewController: UIViewController {
         startstopButton.setTitle("START", for: .normal)
         setExerciseType()
         settingsView.isHidden = false
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     override func viewDidLoad() {
@@ -115,12 +116,14 @@ class ViewController: UIViewController {
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
             startstopButton.setTitle("STOP", for: .normal)
             settingsView.isHidden = true
+            UIApplication.shared.isIdleTimerDisabled = true
         }
         else {
             stopTimestamp = Date().toMillis()
             startstopButton.setTitle("START", for: .normal)
             timer.invalidate()
             settingsView.isHidden = false
+            UIApplication.shared.isIdleTimerDisabled = false
         }
     }
     
