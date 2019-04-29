@@ -48,6 +48,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var decreaseBreathController: UIStackView!
     @IBOutlet weak var increaseHoldController: UIStackView!
     @IBOutlet weak var settingsView: UIStackView!
+    @IBOutlet weak var clockView: UIView!
     
     var isOn = false
     var timer = Timer()
@@ -56,6 +57,8 @@ class ViewController: UIViewController {
     var counterIndex = 0
     var startTimestamp = Int64(0)
     var stopTimestamp = Int64(0)
+    var isKeyboardAppear = false
+    var originalSettingsPlace = CGFloat(0)
     
     func formatTime(timeInt:Int) -> String {
         let seconds = Int(timeInt/1000)
@@ -68,9 +71,15 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func textfieldIsFocused(_ sender: Any) {
+        settingsView.frame.origin.y = clockView.frame.origin.y
+        clockView.isHidden = true
+    }
+    
     func getTimer() -> Int {
         return Int(Date().toMillis() - startTimestamp)
     }
+    
     func getMinutesString(timeInt:Int) -> String {
         //+1000 is correction for seconds
         if ((timeInt + 1000) / 60000 > 9) {
@@ -100,15 +109,17 @@ class ViewController: UIViewController {
         setExerciseType()
         settingsView.isHidden = false
         UIApplication.shared.isIdleTimerDisabled = false
+        settingsView.frame.origin.y = originalSettingsPlace
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
         recalculateCounterValues()
+        originalSettingsPlace = settingsView.frame.origin.y
         resetAll()
     }
-
+    
     @IBAction func buttonClicked(_ sender: UIButton) {
         isOn = !isOn
         if isOn {
@@ -135,7 +146,7 @@ class ViewController: UIViewController {
     }
     
     func recalculateCounterValues() {
-        let iterations = 8 //TODO make dynamic
+        let iterations = NUMBER_OF_ITERATIONS //TODO make dynamic
         counterValues = Array(repeating: 0, count: iterations * 2)
         let sBInt = timeStringToMs(tS: String(startBreathTimeValue.text!))
         let dBInt = timeStringToMs(tS: String(decreaseBreathValue.text!))
@@ -158,6 +169,7 @@ class ViewController: UIViewController {
     @IBAction func valueEdited(_ sender: UITextField) {
         recalculateCounterValues()
         resetAll()
+        clockView.isHidden = false
     }
     
     @objc func UpdateTimer() {

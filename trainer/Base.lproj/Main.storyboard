@@ -88,7 +88,8 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <action selector="valueEdited:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="MKx-8e-EUg"/>
+                                                            <action selector="textfieldIsFocused:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="Zwa-3A-T5b"/>
+                                                            <action selector="valueEdited:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="aCA-QB-GkF"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -108,6 +109,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
+                                                            <action selector="textfieldIsFocused:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="ZWl-Ce-WTg"/>
                                                             <action selector="valueEdited:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="DlX-3j-Aby"/>
                                                         </connections>
                                                     </textField>
@@ -128,6 +130,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
+                                                            <action selector="textfieldIsFocused:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="AKO-Tu-YS4"/>
                                                             <action selector="valueEdited:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="0ig-TN-3oh"/>
                                                         </connections>
                                                     </textField>
@@ -148,6 +151,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
+                                                            <action selector="textfieldIsFocused:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="C31-CJ-p00"/>
                                                             <action selector="valueEdited:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="yPL-tU-Aer"/>
                                                         </connections>
                                                     </textField>
@@ -170,6 +174,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="clockView" destination="yoL-gn-ZrP" id="tYa-MQ-867"/>
                         <outlet property="decreaseBreathController" destination="Udx-YM-Vf0" id="MFG-Dw-GFS"/>
                         <outlet property="decreaseBreathValue" destination="I2G-tY-pcV" id="lCM-BT-ok8"/>
                         <outlet property="exerciseType" destination="bjN-VF-6me" id="P6G-a2-3XD"/>
