@@ -174,12 +174,17 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="breathTimeLabel" destination="p3d-bx-vSu" id="hu3-zy-dSM"/>
                         <outlet property="clockView" destination="yoL-gn-ZrP" id="tYa-MQ-867"/>
+                        <outlet property="colon" destination="Fzm-ti-274" id="RMh-Ib-kpa"/>
                         <outlet property="decreaseBreathController" destination="Udx-YM-Vf0" id="MFG-Dw-GFS"/>
+                        <outlet property="decreaseBreathLabel" destination="FcU-iS-VJg" id="7kI-b9-pl6"/>
                         <outlet property="decreaseBreathValue" destination="I2G-tY-pcV" id="lCM-BT-ok8"/>
                         <outlet property="exerciseType" destination="bjN-VF-6me" id="P6G-a2-3XD"/>
+                        <outlet property="holdTimeLabel" destination="7pc-4b-AAd" id="Giz-Uk-ir3"/>
                         <outlet property="holdTimeValue" destination="z1x-oO-FYh" id="4Ge-hp-kZQ"/>
                         <outlet property="increaseHoldController" destination="Dgf-nt-ERl" id="ZkY-0o-2hb"/>
+                        <outlet property="increaseHoldLabel" destination="f1T-mz-RRX" id="hye-Bq-ubo"/>
                         <outlet property="increaseHoldValue" destination="IbZ-3h-Mw7" id="Wlt-2i-1Nb"/>
                         <outlet property="iterationLabel" destination="m6x-0x-Lgc" id="i6o-ZZ-w54"/>
                         <outlet property="minutesLabel" destination="zVG-0C-mzq" id="0tm-o2-uC8"/>
@@ -187,6 +192,7 @@
                         <outlet property="settingsView" destination="atr-fC-eln" id="UcN-VF-dzB"/>
                         <outlet property="startBreathTimeValue" destination="Byu-Y0-Gzw" id="Dl9-lZ-x3u"/>
                         <outlet property="startstopButton" destination="Hnh-KZ-MGC" id="B0z-FT-kSU"/>
+                        <outlet property="wholeView" destination="8bC-Xf-vdC" id="ft7-5e-sjA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

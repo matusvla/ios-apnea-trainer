@@ -49,6 +49,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var increaseHoldController: UIStackView!
     @IBOutlet weak var settingsView: UIStackView!
     @IBOutlet weak var clockView: UIView!
+    @IBOutlet var wholeView: UIView!
+    @IBOutlet weak var colon: UILabel!
+    @IBOutlet weak var breathTimeLabel: UILabel!
+    @IBOutlet weak var holdTimeLabel: UILabel!
+    @IBOutlet weak var decreaseBreathLabel: UILabel!
+    @IBOutlet weak var increaseHoldLabel: UILabel!
     
     var isOn = false
     var timer = Timer()
@@ -110,6 +116,7 @@ class ViewController: UIViewController {
         settingsView.isHidden = false
         UIApplication.shared.isIdleTimerDisabled = false
         settingsView.frame.origin.y = originalSettingsPlace
+        setDarkMode(isDark: false)
     }
     
     override func viewDidLoad() {
@@ -188,9 +195,38 @@ class ViewController: UIViewController {
         secondsLabel.text = String(format:"%02i",getSeconds(timeInt:remaining))
         if (counterIndex % 2 == 0) {
             iterationLabel.text = "BREATHE"
+            setDarkMode(isDark: false)
         }
         else {
             iterationLabel.text = "HOLD"
+            setDarkMode(isDark: true)
+        }
+    }
+    
+    func setDarkMode(isDark: Bool) {
+        if(isDark) {
+            wholeView.backgroundColor = UIColor.black
+            clockView.backgroundColor = UIColor.black
+            minutesLabel.textColor = UIColor.white
+            secondsLabel.textColor = UIColor.white
+            iterationLabel.textColor = UIColor.white
+            colon.textColor = UIColor.white
+            breathTimeLabel.textColor = UIColor.white
+            holdTimeLabel.textColor = UIColor.white
+            decreaseBreathLabel.textColor = UIColor.white
+            increaseHoldLabel.textColor = UIColor.white
+        }
+        else {
+            wholeView.backgroundColor = UIColor.white
+            clockView.backgroundColor = UIColor.white
+            minutesLabel.textColor = UIColor.black
+            secondsLabel.textColor = UIColor.black
+            iterationLabel.textColor = UIColor.black
+            colon.textColor = UIColor.black
+            breathTimeLabel.textColor = UIColor.black
+            holdTimeLabel.textColor = UIColor.black
+            decreaseBreathLabel.textColor = UIColor.black
+            increaseHoldLabel.textColor = UIColor.black
         }
     }
     
