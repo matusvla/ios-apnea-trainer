@@ -55,6 +55,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var holdTimeLabel: UILabel!
     @IBOutlet weak var decreaseBreathLabel: UILabel!
     @IBOutlet weak var increaseHoldLabel: UILabel!
+    @IBOutlet weak var tempTestingSlideLabel: UILabel!
     
     var isOn = false
     var timer = Timer()
@@ -84,6 +85,14 @@ class ViewController: UIViewController {
     
     func getTimer() -> Int {
         return Int(Date().toMillis() - startTimestamp)
+    }
+    
+    @IBAction func handlePan (_ recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: view)
+        var val:Int = Int(tempTestingSlideLabel.text!)!
+        val += Int(translation.x)
+        tempTestingSlideLabel.text = String(val)
+        recognizer.setTranslation(.zero, in:view)
     }
     
     func getMinutesString(timeInt:Int) -> String {
